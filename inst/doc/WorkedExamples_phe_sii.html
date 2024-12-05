@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Emma Clegg and Georgina Anderson" />
+
+
+<title>Worked examples for phe_sii function</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Worked examples for phe_sii function</h1>
+<h4 class="author">Emma Clegg and Georgina Anderson</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This vignette provides examples of how to use the phe_sii function
+with different kinds of indicators.</p>
+<p><em>The following packages must be installed and loaded if not
+already available</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># source functions required</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(PHEindicatormethods)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+</div>
+<div id="function-and-inputs" class="section level2">
+<h2>Function and inputs</h2>
+<p>phe_sii is an aggregate function, returning the slope index of
+inequality (SII) statistic for each grouping set in the inputted
+dataframe, with lower and upper confidence limits based on the specified
+confidence. The user can choose whether to return the Relative Index of
+Inequality (RII) via an optional argument in the function.</p>
+<p>Each grouping set in the input data should have a row for each
+quantile, labelled with the quantile number, which contains the
+associated population, indicator value and 95% confidence limits. The
+user has the option to provide the standard error instead of the 95%
+confidence limits, in which case this is used directly rather than being
+calculated by the function.</p>
+<p>The user can also specify the indicator type from “0 - default”, “1 -
+rate” or “2 - proportion”, where different transformations are applied
+to the input indicator value and confidence limits in the case of a rate
+or proportion. Examples are provided below for the three cases.</p>
+</div>
+<div id="example-1---default-normal-distribution" class="section level2">
+<h2>Example 1 - default (normal) distribution</h2>
+<p>The example below calculates the SII on some life expectancy data.
+This is assumed to have symmetric confidence intervals around the
+indicator values, so default standard error calculations would be done
+(involving no prior transformations).</p>
+<p>The relevant fields in the input dataset are specified for the
+arguments <code>quantile</code>, <code>population</code> and
+<code>value</code>. <code>value_type</code> is kept equal to 0
+(default), and the number of repetitions set to 1000 for faster running
+of the function as a demonstration.</p>
+<p>The standard error (<code>se</code>) has been provided here in the
+input dataset, meaning this will be used directly and lower/upper 95%
+confidence limits of the indicator values are not needed.</p>
+<p>A warning is generated because one of the GeoCodes (E06000053) in the
+data does not contain a record for every quantile so no output is
+provided for this area.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># Pass data through SII function ---------------------------------------</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>LE_data_SII <span class="ot">&lt;-</span> LE_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>        <span class="co"># Group the input dataframe to create subgroups to calculate the SII for</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>        <span class="fu">group_by</span>(Sex, GeoCode) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>        <span class="co"># Run SII function on grouped dataset</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>        <span class="fu">phe_sii</span>(<span class="at">quantile =</span> Decile,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                <span class="at">population =</span> Pop ,</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                <span class="at">value =</span> LifeExp,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>                <span class="at">value_type =</span> <span class="dv">0</span>, <span class="co"># specify default indicator type</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>                <span class="at">confidence =</span> <span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.998</span>),</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>                <span class="at">se =</span> SE,</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>                <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>                <span class="at">rii =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">&quot;full&quot;</span>) <span class="co"># use smaller no. of repetitions e.g. for testing</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; Warning in phe_sii(., quantile = Decile, population = Pop, value = LifeExp, :</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: some records have been removed due to incomplete or invalid data</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co"># View first 10 rows of results</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(LE_data_SII, <span class="dv">10</span>))  </span></code></pre></div>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="6%" />
+<col width="5%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="9%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Sex</th>
+<th align="left">GeoCode</th>
+<th align="right">sii</th>
+<th align="right">sii_lower95_0cl</th>
+<th align="right">sii_upper95_0cl</th>
+<th align="right">sii_lower99_8cl</th>
+<th align="right">sii_upper99_8cl</th>
+<th align="left">indicator_type</th>
+<th align="right">multiplier</th>
+<th align="left">transform</th>
+<th align="left">CI_confidence</th>
+<th align="left">CI_method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">E06000001</td>
+<td align="right">11.68886</td>
+<td align="right">9.215442</td>
+<td align="right">14.07460</td>
+<td align="right">7.896985</td>
+<td align="right">15.27278</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">E06000002</td>
+<td align="right">12.54785</td>
+<td align="right">10.579679</td>
+<td align="right">14.57307</td>
+<td align="right">9.433565</td>
+<td align="right">15.43696</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">E06000003</td>
+<td align="right">10.05084</td>
+<td align="right">7.820256</td>
+<td align="right">12.30021</td>
+<td align="right">6.098286</td>
+<td align="right">13.65081</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">E06000004</td>
+<td align="right">14.85223</td>
+<td align="right">13.029586</td>
+<td align="right">16.66506</td>
+<td align="right">11.542089</td>
+<td align="right">17.22223</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">E06000005</td>
+<td align="right">11.68095</td>
+<td align="right">9.126462</td>
+<td align="right">14.13962</td>
+<td align="right">7.997806</td>
+<td align="right">15.28689</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">E06000006</td>
+<td align="right">12.27526</td>
+<td align="right">10.014238</td>
+<td align="right">14.29402</td>
+<td align="right">8.563631</td>
+<td align="right">15.53240</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">E06000007</td>
+<td align="right">11.59893</td>
+<td align="right">10.131272</td>
+<td align="right">12.96125</td>
+<td align="right">9.068544</td>
+<td align="right">13.56129</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">E06000008</td>
+<td align="right">10.72510</td>
+<td align="right">8.539485</td>
+<td align="right">12.66773</td>
+<td align="right">7.260345</td>
+<td align="right">13.95977</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">E06000009</td>
+<td align="right">13.59387</td>
+<td align="right">11.385259</td>
+<td align="right">15.63067</td>
+<td align="right">10.072540</td>
+<td align="right">16.61999</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">E06000010</td>
+<td align="right">11.20094</td>
+<td align="right">9.667654</td>
+<td align="right">12.58422</td>
+<td align="right">8.983728</td>
+<td align="right">13.32130</td>
+<td align="left">normal</td>
+<td align="right">1</td>
+<td align="left">none</td>
+<td align="left">95%, 99.8%</td>
+<td align="left">simulation 1000 reps</td>
+</tr>
+</tbody>
+</table>
+<p>Note that some areas are missing quantiles in the dataset, and these
+are subsequently excluded from the function output with a warning
+given.</p>
+</div>
+<div id="example-2---rate" class="section level2">
+<h2>Example 2 - rate</h2>
+<p>The example below calculates both the SII and RII on Directly
+Standardised Rate (DSR) data. The <code>value_type</code> argument is
+set to 1 to specify this indicator is a rate; this means a log
+transformation will be applied to the <code>value</code>,
+<code>lower_cl</code> and <code>upper_cl</code> fields before
+calculating the standard error. The <code>transform</code> argument is
+set to TRUE because rates do not show a linear relationship across the
+quantiles so a log transformation will be applied before calculating the
+SII and then reverted once the SII has been calculated to ensure the SII
+is given in the original units.</p>
+<p>As the number of repetitions is not specified, the function will run
+on the default 100,000. To return the RII, the <code>rii</code> argument
+is set to TRUE.</p>
+<p>Finally, setting <code>reliability_stat = TRUE</code> will run
+additional sample sets of the SII/RII confidence limits and return a
+Mean Average Difference (MAD) value for each subgroup. See below for
+guidance on how to use this.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Pass data through SII function ---------------------------------------</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>DSR_data_SII <span class="ot">&lt;-</span> DSR_data <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>        <span class="co"># Group the input dataframe to create subgroups to calculate the SII for</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>        <span class="fu">group_by</span>(Period) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>        <span class="co"># Run SII function on grouped dataset</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>        <span class="fu">phe_sii</span>(<span class="at">quantile =</span> Quintile,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>                <span class="at">population =</span> total_pop ,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>                <span class="at">value =</span> value,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>                <span class="at">value_type =</span> <span class="dv">1</span>, <span class="co"># specifies indicator is a rate</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>                <span class="at">lower_cl =</span> lowercl,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>                <span class="at">upper_cl =</span> uppercl,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                <span class="at">transform =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>                <span class="at">rii =</span> <span class="cn">TRUE</span>, <span class="co"># returns RII as well as SII (default is FALSE)</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>                <span class="at">reliability_stat =</span> <span class="cn">TRUE</span>) <span class="co"># returns reliability stats (default is FALSE)</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># View results</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DSR_data_SII)  </span></code></pre></div>
+<table>
+<colgroup>
+<col width="3%" />
+<col width="5%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="8%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Period</th>
+<th align="right">sii</th>
+<th align="right">rii</th>
+<th align="right">sii_lower95_0</th>
+<th align="right">sii_upper95_0</th>
+<th align="right">rii_lower95_0</th>
+<th align="right">rii_upper95_0</th>
+<th align="right">sii_mad95_0</th>
+<th align="right">rii_mad95_0</th>
+<th align="left">indicator_type</th>
+<th align="right">multiplier</th>
+<th align="left">transform</th>
+<th align="left">CI_confidence</th>
+<th align="left">CI_method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2010</td>
+<td align="right">-14.03684</td>
+<td align="right">0.9010655</td>
+<td align="right">-17.95990</td>
+<td align="right">-10.126662</td>
+<td align="right">0.8752420</td>
+<td align="right">0.9275826</td>
+<td align="right">0.0130479</td>
+<td align="right">0.0000876</td>
+<td align="left">rate</td>
+<td align="right">1</td>
+<td align="left">log</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">2011</td>
+<td align="right">-12.83196</td>
+<td align="right">0.9086641</td>
+<td align="right">-16.72001</td>
+<td align="right">-8.917710</td>
+<td align="right">0.8827020</td>
+<td align="right">0.9355915</td>
+<td align="right">0.0280356</td>
+<td align="right">0.0001918</td>
+<td align="left">rate</td>
+<td align="right">1</td>
+<td align="left">log</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">2012</td>
+<td align="right">-11.09234</td>
+<td align="right">0.9199455</td>
+<td align="right">-14.91251</td>
+<td align="right">-7.257354</td>
+<td align="right">0.8939089</td>
+<td align="right">0.9468622</td>
+<td align="right">0.0225923</td>
+<td align="right">0.0001558</td>
+<td align="left">rate</td>
+<td align="right">1</td>
+<td align="left">log</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">2013</td>
+<td align="right">-10.06041</td>
+<td align="right">0.9266342</td>
+<td align="right">-13.85842</td>
+<td align="right">-6.255091</td>
+<td align="right">0.9003791</td>
+<td align="right">0.9537227</td>
+<td align="right">0.0107066</td>
+<td align="right">0.0000743</td>
+<td align="left">rate</td>
+<td align="right">1</td>
+<td align="left">log</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="right">-10.06085</td>
+<td align="right">0.9263086</td>
+<td align="right">-13.84260</td>
+<td align="right">-6.302576</td>
+<td align="right">0.9000559</td>
+<td align="right">0.9531717</td>
+<td align="right">0.0164711</td>
+<td align="right">0.0001149</td>
+<td align="left">rate</td>
+<td align="right">1</td>
+<td align="left">log</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">2015</td>
+<td align="right">-8.53077</td>
+<td align="right">0.9368534</td>
+<td align="right">-12.23824</td>
+<td align="right">-4.816133</td>
+<td align="right">0.9106841</td>
+<td align="right">0.9638401</td>
+<td align="right">0.0152442</td>
+<td align="right">0.0001095</td>
+<td align="left">rate</td>
+<td align="right">1</td>
+<td align="left">log</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="example-3---proportion" class="section level2">
+<h2>Example 3 - proportion</h2>
+<p>This example calculates the SII for a prevalence indicator.
+Proportions need to be between 0 and 1 - this formatting is done in the
+<code>mutate</code> command below, before passing the grouped dataset to
+the <code>phe_sii</code> function.</p>
+<p>The <code>value_type</code> argument is set to 2 to specify the
+indicator is a proportion, and a logit transformation is applied to the
+<code>value</code>, <code>lower_cl</code> and <code>upper_cl</code>
+fields before calculating the standard error. The <code>transform</code>
+argument is set to TRUE because proportions do not show a linear
+relationship across the quantiles so a logit transformation will be
+applied before calculating the SII and then reverted once the SII has
+been calculated to ensure the SII is given in the original units.</p>
+<p>The function will again run on the default 100,000 reps, and neither
+the RII or MAD values will be returned.</p>
+<p>There is the option to specify a numeric <code>multiplier</code> in
+the arguments, which will scale the SII, SII_lowerCL, SII_upperCL (and
+SII_MAD) before outputting. This could be used if an absolute
+(i.e. positive) slope is desired for an indicator, where the “high is
+bad” polarity would otherwise give negative SII results.</p>
+<p>Below, a multiplier of -100 is used, to output absolute prevalence
+figures that are expressed on a scale between 0 and 100.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># Pass data through SII function ---------------------------------------</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>prevalence_SII <span class="ot">&lt;-</span> prevalence_data <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>          <span class="co"># Group the input dataframe to create subgroups to calculate the SII for</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>        <span class="fu">group_by</span>(Period, SchoolYear, AreaCode) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>          <span class="co"># Format prevalences to be between 0 and 1</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">Rate =</span> Rate<span class="sc">/</span><span class="dv">100</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>               <span class="at">LCL =</span> LCL<span class="sc">/</span><span class="dv">100</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>               <span class="at">UCL =</span> UCL<span class="sc">/</span><span class="dv">100</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>           <span class="co"># Run SII function on grouped dataset</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>        <span class="fu">phe_sii</span>(<span class="at">quantile =</span> Decile,</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                        <span class="at">population =</span> Measured,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>                        <span class="at">value =</span> Rate,</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>                        <span class="at">value_type =</span> <span class="dv">2</span>, <span class="co"># specifies indicator is a proportion</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>                        <span class="at">lower_cl =</span> LCL,</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>                        <span class="at">upper_cl =</span> UCL,</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>                        <span class="at">transform =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>                        <span class="at">multiplier =</span> <span class="sc">-</span><span class="dv">100</span>) <span class="co"># negative multiplier to scale SII outputs</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co"># View first 10 rows of results</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(prevalence_SII,<span class="dv">10</span>)) </span></code></pre></div>
+<table>
+<colgroup>
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Period</th>
+<th align="left">SchoolYear</th>
+<th align="left">AreaCode</th>
+<th align="right">sii</th>
+<th align="right">sii_lower95_0</th>
+<th align="right">sii_upper95_0</th>
+<th align="left">indicator_type</th>
+<th align="right">multiplier</th>
+<th align="left">transform</th>
+<th align="left">CI_confidence</th>
+<th align="left">CI_method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">607</td>
+<td align="left">6</td>
+<td align="left">E92000001</td>
+<td align="right">10.964626</td>
+<td align="right">10.442276</td>
+<td align="right">11.487365</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">607</td>
+<td align="left">R</td>
+<td align="left">E92000001</td>
+<td align="right">5.970062</td>
+<td align="right">5.549097</td>
+<td align="right">6.393890</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">708</td>
+<td align="left">6</td>
+<td align="left">E92000001</td>
+<td align="right">11.271798</td>
+<td align="right">10.882719</td>
+<td align="right">11.665736</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">708</td>
+<td align="left">R</td>
+<td align="left">E92000001</td>
+<td align="right">6.200092</td>
+<td align="right">5.891670</td>
+<td align="right">6.511572</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">809</td>
+<td align="left">6</td>
+<td align="left">E92000001</td>
+<td align="right">11.804672</td>
+<td align="right">11.424118</td>
+<td align="right">12.187107</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">809</td>
+<td align="left">R</td>
+<td align="left">E92000001</td>
+<td align="right">6.911770</td>
+<td align="right">6.615734</td>
+<td align="right">7.206792</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">910</td>
+<td align="left">6</td>
+<td align="left">E92000001</td>
+<td align="right">12.459329</td>
+<td align="right">12.074213</td>
+<td align="right">12.845349</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">910</td>
+<td align="left">R</td>
+<td align="left">E92000001</td>
+<td align="right">7.141644</td>
+<td align="right">6.851003</td>
+<td align="right">7.433598</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="odd">
+<td align="right">1011</td>
+<td align="left">6</td>
+<td align="left">E92000001</td>
+<td align="right">13.057800</td>
+<td align="right">12.664883</td>
+<td align="right">13.441025</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+<tr class="even">
+<td align="right">1011</td>
+<td align="left">R</td>
+<td align="left">E92000001</td>
+<td align="right">7.139306</td>
+<td align="right">6.858750</td>
+<td align="right">7.423963</td>
+<td align="left">proportion</td>
+<td align="right">-100</td>
+<td align="left">logit</td>
+<td align="left">95%</td>
+<td align="left">simulation 1e+05 reps</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="interpreting-the-mean-average-difference-mad" class="section level2">
+<h2>Interpreting the Mean Average Difference (MAD)</h2>
+<p>If <code>reliability_stat</code> is set to TRUE in the function, a
+MAD value is returned for each subgroup as a measure of how much the SII
+(or RII) confidence limits vary.</p>
+<p>Note: this option will increase the runtime of the function, as the
+MAD calculation involves an additional 9 sample sets of the confidence
+limits to be taken.</p>
+<p>A MAD of 0.005 implies that, on rerunning the phe_sii function, the
+confidence limits can be expected to change by approximately 0.005. The
+more repetitions the function is run on, the smaller this statistic
+should be. The tolerance will depend on the level of accuracy to which
+the user wishes to present the confidence limits - ideally, to display
+them to 1 d.p., the MAD should be smaller than 0.01. To 2 d.p., smaller
+than 0.001, etc.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

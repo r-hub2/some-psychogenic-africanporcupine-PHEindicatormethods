@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Georgina Anderson" />
+
+
+<title>PHEindicatormethods DSR function</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">PHEindicatormethods DSR function</h1>
+<h4 class="author">Georgina Anderson</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This vignette documents the method for calculating DSRs and their
+confidence limits using the
+<code>PHEindicatormethods::calculate_dsr()</code> function. The function
+calculates confidence limits using the Dobson method, with an option to
+adjust confidence intervals for non-independent events.</p>
+<p>The function can be used to calculate DSRs for multiple groups. For
+example, DSRs for multiple geographic areas, sexes, time periods and/or
+indicators can be calculated in a single execution. It takes the
+following arguments as inputs:</p>
+<p><br /> <br /></p>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="14%" />
+<col width="57%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Argument</th>
+<th align="left">Type</th>
+<th align="left">Definition</th>
+<th align="left">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">data</td>
+<td align="left">data frame</td>
+<td align="left">data.frame containing the data to be standardised</td>
+<td align="left">none</td>
+</tr>
+<tr class="even">
+<td align="left">x</td>
+<td align="left">unquoted string</td>
+<td align="left">field name from data containing the observed number of
+events for each standardisation category (eg ageband) within each
+grouping set (eg area or indicator)</td>
+<td align="left">none</td>
+</tr>
+<tr class="odd">
+<td align="left">n</td>
+<td align="left">unquoted string</td>
+<td align="left">field name from data containing the populations for
+each standardisation category (eg ageband) within each grouping set (eg
+area or indicator)</td>
+<td align="left">none</td>
+</tr>
+<tr class="even">
+<td align="left">stdpop</td>
+<td align="left">unquoted string</td>
+<td align="left">field name from data containing the standard
+populations for each age group</td>
+<td align="left">none</td>
+</tr>
+<tr class="odd">
+<td align="left">type</td>
+<td align="left">quoted string</td>
+<td align="left">defines the data and metadata columns to include in
+output. Can by ‘value’, ‘lower’, ‘upper’, ‘standard’ or ‘full’</td>
+<td align="left">“full”</td>
+</tr>
+<tr class="even">
+<td align="left">confidence</td>
+<td align="left">numeric value</td>
+<td align="left">the required level of confidence expressed as a number
+between 0.9 and 1 or 90 and 100</td>
+<td align="left">0.95</td>
+</tr>
+<tr class="odd">
+<td align="left">multiplier</td>
+<td align="left">numeric value</td>
+<td align="left">the multiplier used to express the final values (eg
+100,000 = rate per 100,000</td>
+<td align="left">100,000</td>
+</tr>
+<tr class="even">
+<td align="left">independent_events</td>
+<td align="left">boolean</td>
+<td align="left">whether events are independent</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="left">eventfreq</td>
+<td align="left">unquoted string</td>
+<td align="left">field name from data containing the event
+frequencies</td>
+<td align="left">NULL</td>
+</tr>
+<tr class="even">
+<td align="left">ageband</td>
+<td align="left">unquoted string</td>
+<td align="left">field name form data containing the age bands for
+standardisation</td>
+<td align="left">NULL</td>
+</tr>
+</tbody>
+</table>
+<p><br /> <br /></p>
+<p>Note that the European Standard Population 2013 divided into 19
+five-year agebands (0-4, 5-9, 10-14, …..90+) is provided in vector
+format within the package. You can join this to your dataset to create a
+standard population column prior to calling
+<code>calculate_dsr</code>.</p>
+<p>If multiple DSRs are required from a single data frame then the data
+frame must be grouped prior to inputting to the function - this is
+demonstrated below.</p>
+<div id="the-following-packages-must-be-installed-and-loaded-if-not-already-available" class="section level4">
+<h4>The following packages must be installed and loaded if not already
+available</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(PHEindicatormethods)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;dplyr&#39; was built under R version 4.4.2</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;tidyr&#39; was built under R version 4.4.2</span></span></code></pre></div>
+</div>
+</div>
+<div id="first-lets-create-some-data-to-play-with" class="section level2">
+<h2>First let’s create some data to play with</h2>
+<p>In a real situation we’d most likely be sourcing our numerators and
+denominators from different places so let’s create them separately for
+now.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>pops <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">indicator =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ind1&quot;</span>, <span class="st">&quot;Ind2&quot;</span>, <span class="st">&quot;Ind3&quot;</span>, <span class="st">&quot;Ind4&quot;</span>), <span class="at">each =</span> <span class="dv">19</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">5</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">period    =</span> <span class="fu">rep</span>(<span class="dv">2012</span><span class="sc">:</span><span class="dv">2016</span>, <span class="at">each =</span> <span class="dv">19</span> <span class="sc">*</span> <span class="dv">2</span>, <span class="at">times =</span> <span class="dv">4</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">region    =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Area1&quot;</span>, <span class="st">&quot;Area2&quot;</span>), <span class="at">each =</span> <span class="dv">19</span>), <span class="at">times =</span> <span class="dv">20</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">ageband   =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>                   <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">80</span>, <span class="dv">85</span>, <span class="dv">90</span>), <span class="at">times =</span> <span class="dv">40</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">pop       =</span> <span class="fu">sample</span>(<span class="dv">10000</span><span class="sc">:</span><span class="dv">20000</span>, <span class="dv">19</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">5</span> <span class="sc">*</span> <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">esp2013   =</span> <span class="fu">rep</span>(esp2013, <span class="at">times =</span> <span class="dv">40</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">head</span>(pops)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;   indicator period region ageband   pop esp2013</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 1      Ind1   2012  Area1       0 19888    5000</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 2      Ind1   2012  Area1       5 17290    5500</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 3      Ind1   2012  Area1      10 12614    5500</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 4      Ind1   2012  Area1      15 19352    5500</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 5      Ind1   2012  Area1      20 12441    6000</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; 6      Ind1   2012  Area1      25 16525    6000</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>deaths <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>  <span class="at">indicator =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Ind1&quot;</span>, <span class="st">&quot;Ind2&quot;</span>, <span class="st">&quot;Ind3&quot;</span>, <span class="st">&quot;Ind4&quot;</span>), <span class="at">each =</span> <span class="dv">19</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">5</span>),</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  <span class="at">period =</span> <span class="fu">rep</span>(<span class="dv">2012</span><span class="sc">:</span><span class="dv">2016</span>, <span class="at">each =</span> <span class="dv">19</span> <span class="sc">*</span> <span class="dv">2</span>),</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  <span class="at">region =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Area1&quot;</span>, <span class="st">&quot;Area2&quot;</span>), <span class="at">each =</span> <span class="dv">19</span>), <span class="at">times =</span> <span class="dv">5</span>),</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>  <span class="at">ageband =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>                 <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">80</span>, <span class="dv">85</span>, <span class="dv">90</span>), <span class="at">times =</span> <span class="dv">10</span>),</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>  <span class="at">dths =</span> <span class="fu">sample</span>(<span class="dv">200</span>, <span class="dv">19</span> <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">5</span> <span class="sc">*</span> <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="fu">head</span>(deaths)</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt;   indicator period region ageband dths</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 1      Ind1   2012  Area1       0  162</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; 2      Ind1   2012  Area1       5  185</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 3      Ind1   2012  Area1      10    3</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt; 4      Ind1   2012  Area1      15   75</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt; 5      Ind1   2012  Area1      20   18</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt; 6      Ind1   2012  Area1      25   40</span></span></code></pre></div>
+<p>Our data contains records for 4 different indicators, 5 time periods
+and 2 geographies so let’s calculate a DSR for each combination - that’s
+40 separate DSRs from a single execution of the calculate_dsr
+function……</p>
+</div>
+<div id="prepare-the-data-frame" class="section level2">
+<h2>Prepare the data frame</h2>
+<p>First we’ll need to join our datasets to create the input data frame
+for the function. We also need to specify our grouping sets:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">left_join</span>(pops,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                deaths, </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;indicator&quot;</span>, <span class="st">&quot;period&quot;</span>, <span class="st">&quot;region&quot;</span>, <span class="st">&quot;ageband&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">group_by</span>(indicator, period, region)</span></code></pre></div>
+</div>
+<div id="now-lets-calculate-some-dsrs" class="section level2">
+<h2>Now let’s calculate some DSRs</h2>
+<p>By default the function will apply 95% confidence intervals, a
+100,000 multiplier and will output 3 data fields against each grouping
+set:</p>
+<ul>
+<li>the dsr value<br />
+</li>
+<li>the lower confidence limit</li>
+<li>the upper confidence limit</li>
+</ul>
+<p>It will also output 3 metadata fields as an audit showing which
+argument parameters were passed:</p>
+<ul>
+<li>confidence - the confidence level(s) returned</li>
+<li>statistic - the statistic including the multiplier applied</li>
+<li>method - the DSR method applied</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">calculate_dsr</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">data =</span> df, </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">x =</span> dths, <span class="co"># name of field containing count of events</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">n =</span> pop, <span class="co"># name of field containing population denominators</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">stdpop =</span> esp2013 <span class="co"># name of field containing standard populations</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 40 × 11</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;    indicator period region total_count total_pop value lowercl uppercl</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;        &lt;int&gt;     &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;  1 Ind1        2012 Area1         2143    306232  654.    624.    685.</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  2 Ind1        2012 Area2         1630    275929  626.    595.    659.</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  3 Ind1        2013 Area1         1568    282487  566.    537.    597.</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  4 Ind1        2013 Area2         1872    278527  681.    648.    715.</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;  5 Ind1        2014 Area1         2017    279842  766.    731.    802.</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;  6 Ind1        2014 Area2         1582    275099  628.    595.    662.</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;  7 Ind1        2015 Area1         1657    265469  648.    614.    683.</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;  8 Ind1        2015 Area2         1847    301702  577.    550.    606.</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;  9 Ind1        2016 Area1         1874    279958  683.    649.    717.</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 10 Ind1        2016 Area2         1979    279559  828.    790.    868.</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; # ℹ 30 more rows</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more variables: confidence &lt;chr&gt;, statistic &lt;chr&gt;, method &lt;chr&gt;</span></span></code></pre></div>
+<p></br> </br></p>
+<p>Alternatively, we can drop metadata fields by specifying the ‘type’
+argument value as ‘standard’, and adjust the multiplier applied to the
+DSR:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">calculate_dsr</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">data =</span> df, </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">x =</span> dths, </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">n =</span> pop, </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">stdpop =</span> esp2013, </span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;standard&quot;</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">confidence =</span> <span class="fl">99.8</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">multiplier =</span> <span class="dv">10000</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; # A tibble: 40 × 8</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;    indicator period region total_count total_pop value lowercl uppercl</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;        &lt;int&gt;     &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  1 Ind1        2012 Area1         2143    306232  65.4    60.7    70.4</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  2 Ind1        2012 Area2         1630    275929  62.6    57.7    67.9</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  3 Ind1        2013 Area1         1568    282487  56.6    52.1    61.4</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  4 Ind1        2013 Area2         1872    278527  68.1    63.0    73.5</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  5 Ind1        2014 Area1         2017    279842  76.6    71.2    82.3</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;  6 Ind1        2014 Area2         1582    275099  62.8    57.6    68.2</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;  7 Ind1        2015 Area1         1657    265469  64.8    59.5    70.3</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;  8 Ind1        2015 Area2         1847    301702  57.7    53.4    62.3</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt;  9 Ind1        2016 Area1         1874    279958  68.3    63.1    73.7</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 10 Ind1        2016 Area2         1979    279559  82.8    76.9    89.1</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; # ℹ 30 more rows</span></span></code></pre></div>
+<p></br> </br></p>
+</div>
+<div id="alternative-standard-populations" class="section level2">
+<h2>Alternative Standard Populations</h2>
+<p>In some cases you may wish to standardise against a different
+population to the default esp2013 one provided - such as the 1976
+European Standard Population or an age and sex standardised population.
+This can be done by appending the required standard populations to your
+data frame before executing the function.</p>
+<p>In the example below the data we have used previously are duplicated
+for males and females and then different standard populations are
+applied to each gender. For the purposes of the example, dummy standard
+populations have been used which very crudely represent more women
+living to the oldest age groups than men - these are not from any
+official source and should not be used in real analysis. Notice that
+despite the data counts and populations being the same for males and
+females the different standard populations used result in different DSRs
+being produced.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># duplicate data for males and females and apply different standard populations</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># to each sex</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>df_f <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">sex =</span> <span class="st">&quot;F&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">esp_dummy =</span> <span class="fu">c</span>(<span class="dv">5000</span>, <span class="dv">5500</span>, <span class="dv">5500</span>, <span class="dv">5500</span>, <span class="dv">6000</span>, <span class="dv">6000</span>, <span class="dv">6500</span>, <span class="dv">7000</span>, <span class="dv">7000</span>, <span class="dv">7000</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                  <span class="dv">7000</span>, <span class="dv">6500</span>, <span class="dv">5500</span>, <span class="dv">5000</span>, <span class="dv">4500</span>, <span class="dv">4000</span>, <span class="dv">3000</span>, <span class="dv">2000</span>, <span class="dv">1500</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  )</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>df_m <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="at">sex =</span> <span class="st">&quot;M&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    <span class="at">esp_dummy =</span> <span class="fu">c</span>(<span class="dv">5000</span>, <span class="dv">5500</span>, <span class="dv">5500</span>, <span class="dv">5500</span>, <span class="dv">6000</span>, <span class="dv">6000</span>, <span class="dv">6500</span>, <span class="dv">7000</span>, <span class="dv">7000</span>, <span class="dv">7000</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                  <span class="dv">7000</span>, <span class="dv">6500</span>, <span class="dv">6500</span>, <span class="dv">6000</span>, <span class="dv">5500</span>, <span class="dv">4000</span>, <span class="dv">2000</span>, <span class="dv">1000</span>, <span class="dv">500</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  )</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>df_mf <span class="ot">&lt;-</span> df_f <span class="sc">%&gt;%</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>  <span class="fu">bind_rows</span>(df_m) <span class="sc">%&gt;%</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, <span class="at">.add =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="st">&quot;esp2013&quot;</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># add sex to the grouping variables then calculate the DSRs</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>dsrs_mf <span class="ot">&lt;-</span> <span class="fu">calculate_dsr</span>(</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  df_mf, </span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>  <span class="at">x =</span> dths, </span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>  <span class="at">n =</span> pop, </span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>  <span class="at">stdpop =</span> esp_dummy</span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>)</span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="fu">head</span>(dsrs_mf)</span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 12</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt;   indicator period region sex   total_count total_pop value lowercl uppercl</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;int&gt;     &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt; 1 Ind1        2012 Area1  F            2143    306232  664.    634.    695.</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt; 2 Ind1        2012 Area1  M            2143    306232  644.    614.    676.</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt; 3 Ind1        2012 Area2  F            1630    275929  625.    594.    658.</span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt; 4 Ind1        2012 Area2  M            1630    275929  628.    596.    661.</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt; 5 Ind1        2013 Area1  F            1568    282487  571.    542.    601.</span></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt; 6 Ind1        2013 Area1  M            1568    282487  562.    533.    592.</span></span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more variables: confidence &lt;chr&gt;, statistic &lt;chr&gt;, method &lt;chr&gt;</span></span></code></pre></div>
+<p></br> </br></p>
+</div>
+<div id="calculating-dsrs-when-the-events-are-non-independent" class="section level2">
+<h2>Calculating DSRs when the events are non-independent</h2>
+<p>Methodological advice on calculating directly standardised rates when
+observed events are not independent can be found in the DSR chapter of
+the <a href="https://fingertips.phe.org.uk/static-reports/public-health-technical-guidance/index.html">Fingertips
+Public Health Technical Guidance</a>.</p>
+<p>This method adjusts the confidence intervals around the DSR by
+considering the frequency of events per individual. In the example
+below, event frequency data is added to the input data frame and the
+calculate_dsr function is then applied with the independent_events
+argument set to FALSE. The event frequency and age band column names are
+additionally passed into the function. Note that the DSRs output are
+identical to those produced for the df data frame at the beginning of
+this vignette, but the 95% confidence intervals are wider.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Generate some dummy data</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># breakdown original dataset to show event frequencies and to count unique people</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>df_person_freq <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a> <span class="fu">mutate</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>   <span class="at">f3 =</span> <span class="fu">floor</span>((dths <span class="sc">*</span> <span class="fl">0.1</span>) <span class="sc">/</span> <span class="dv">3</span>),           <span class="co"># 10% of events in persons with 3 events</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>   <span class="at">f2 =</span> <span class="fu">floor</span>((dths <span class="sc">*</span> <span class="fl">0.2</span>) <span class="sc">/</span> <span class="dv">2</span>),           <span class="co"># 20% of events in persons with 2 events</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>   <span class="at">f1 =</span> (dths <span class="sc">-</span> (<span class="dv">3</span> <span class="sc">*</span> f3) <span class="sc">-</span> (<span class="dv">2</span> <span class="sc">*</span> f2))) <span class="sc">%&gt;%</span>  <span class="co"># 70% of events in persons with 1 event</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a> <span class="fu">select</span>(<span class="sc">!</span><span class="st">&quot;dths&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a> <span class="fu">pivot_longer</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>   <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;f1&quot;</span>, <span class="st">&quot;f2&quot;</span>, <span class="st">&quot;f3&quot;</span>),</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>   <span class="at">names_to =</span> <span class="st">&quot;eventfrequency&quot;</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>   <span class="at">values_to =</span> <span class="st">&quot;uniquepeople&quot;</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>   <span class="at">names_prefix =</span> <span class="st">&quot;f&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">eventfrequency =</span> <span class="fu">as.integer</span>(eventfrequency)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a> )</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># calculate the dsrs - notice that output DSRs values match those calculated</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># earlier for the same data frame but confidence intervals are wider</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>df_person_freq <span class="sc">%&gt;%</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>  <span class="fu">group_by</span>(eventfrequency, <span class="at">.add =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>  <span class="fu">calculate_dsr</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>    <span class="at">x =</span> uniquepeople, <span class="co"># count of unique individuals experiencing the frequency of events in eventfreq</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>    <span class="at">n =</span> pop,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>    <span class="at">stdpop =</span> esp2013,</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>    <span class="at">independent_events =</span> <span class="cn">FALSE</span>, <span class="co"># calculate CIs assuming events are not independent</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>    <span class="at">eventfreq =</span> eventfrequency, <span class="co"># name of column containing the event frequencies (e.g. 1, 2, ...)</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>    <span class="at">ageband =</span> ageband <span class="co"># name of column containing age bands</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>  )</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt; # A tibble: 40 × 11</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt;    indicator period region total_count total_pop value lowercl uppercl</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;     &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt;  1 Ind1        2012 Area1         2143    306232  654.    619.    691.</span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt;  2 Ind1        2012 Area2         1630    275929  626.    589.    665.</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co">#&gt;  3 Ind1        2013 Area1         1568    282487  566.    533.    602.</span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt;  4 Ind1        2013 Area2         1872    278527  681.    643.    720.</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt;  5 Ind1        2014 Area1         2017    279842  766.    725.    808.</span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co">#&gt;  6 Ind1        2014 Area2         1582    275099  628.    589.    668.</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="co">#&gt;  7 Ind1        2015 Area1         1657    265469  648.    609.    688.</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#&gt;  8 Ind1        2015 Area2         1847    301702  577.    545.    611.</span></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="co">#&gt;  9 Ind1        2016 Area1         1874    279958  683.    644.    723.</span></span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="co">#&gt; 10 Ind1        2016 Area2         1979    279559  828.    784.    874.</span></span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a><span class="co">#&gt; # ℹ 30 more rows</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 more variables: confidence &lt;chr&gt;, statistic &lt;chr&gt;, method &lt;chr&gt;</span></span></code></pre></div>
+<p></br> </br></p>
+</div>
+<div id="calculating-dsrs-when-there-are-zero-deaths-in-some-age-bands" class="section level2">
+<h2>Calculating DSRs when there are zero deaths in some age bands</h2>
+<p>This is a fairly common scenario, especially when working with small
+populations where there may be no deaths in some of the younger age
+groups. The calculate_dsr function can handle this scenario and will
+assume a zero death count where it is missing or recorded as NA.</p>
+<p>Let’s create a couple of data frames to demonstrate this. In this
+example, there are no deaths in the 10-14, 15-20 and 20-14 age bands. If
+we join these data frames to produce the input data frame required for
+the calculate_dsr function then we get NA values in the Deaths
+column.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>pops2   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="at">ageband =</span> <span class="fu">c</span>( <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>               <span class="dv">50</span>, <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">80</span>, <span class="dv">85</span>, <span class="dv">90</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">pop     =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">35</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>              <span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">70</span>, <span class="dv">60</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">15</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="at">esp2013 =</span> esp2013</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>deaths2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="at">ageband =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">55</span>, </span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>              <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">70</span>, <span class="dv">75</span>, <span class="dv">80</span>, <span class="dv">85</span>, <span class="dv">90</span>),</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="at">dths    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">10</span>, </span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>              <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">8</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>)</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">left_join</span>(pops2, deaths2, <span class="at">by =</span> <span class="st">&quot;ageband&quot;</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="fu">head</span>(df2)</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;   ageband pop esp2013 dths</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; 1       0  30    5000    1</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; 2       5  35    5500    1</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; 3      10  35    5500   NA</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; 4      15  35    5500   NA</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; 5      20  40    6000   NA</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; 6      25  40    6000    1</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="fu">calculate_dsr</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>  df2,</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>  <span class="at">x =</span> dths,</span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a>  <span class="at">n =</span> pop,</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>  <span class="at">stdpop =</span> esp2013</span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a>)</span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt;   total_count total_pop    value  lowercl  uppercl confidence      statistic</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt; 1          88       860 8283.016 6570.819 10289.65        95% dsr per 100000</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt;   method</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; 1 Dobson</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
